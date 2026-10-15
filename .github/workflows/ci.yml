@@ -1,0 +1,27 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  sim-and-synth:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: YosysHQ/setup-oss-cad-suite@v3
+      - run: pip install -r requirements.txt
+      - name: Register map is in sync with regmap.py
+        run: python regmap.py && git diff --exit-code
+      - name: Golden model self-check
+        run: python model/golden.py
+      - name: cocotb + GHDL tests
+        run: python tb/run.py
+      - name: Yosys synthesis (ECP5)
+        run: bash syn/synth.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports
+          path: |
+            sim_build/results.xml
+            build/stat_ecp5.txt

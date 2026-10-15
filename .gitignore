@@ -1,0 +1,10 @@
+sim_build/
+build/
+__pycache__/
+*.pyc
+results.xml
+*.ghw
+*.vcd
+.Xil/
+*.jou
+*.log
