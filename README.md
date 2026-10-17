@@ -1,4 +1,33 @@
-# axi-fir-decimator
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <img src="assets/logo.svg" alt="fpga-fir-decimator" width="360">
+  </picture>
+</p>
+
+<p align="center">
+  <b>A 32-tap FIR decimator in VHDL with AXI interfaces, checked bit-exact against Python.</b><br>
+  AXI4-Stream data path with backpressure, AXI4-Lite register map generated from one source, cocotb + GHDL tests against a NumPy golden model, yosys synthesis in CI.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Alifizz01/fpga-fir-decimator/actions/workflows/ci.yml"><img src="https://github.com/Alifizz01/fpga-fir-decimator/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/VHDL-2008-1B2430" alt="VHDL">
+  <img src="https://img.shields.io/badge/cocotb-GHDL-6E4C9E" alt="cocotb">
+  <img src="https://img.shields.io/badge/synthesis-yosys%20ECP5-555555" alt="synthesis">
+</p>
+
+<p align="center"><img src="docs/hero.png" alt="Frequency response of the quantised coefficients for decimation 2, 4 and 8" width="900"></p>
+
+> **Scope:** Simulated and synthesised only, never run on hardware; the Vivado flow is prepared but has not been run. Personal portfolio project, not affiliated with any employer.
+
+---
+
+## The problem
+
+DSP on an FPGA fails in the details: fixed-point rounding, saturation, and AXI handshakes under backpressure. A filter that looks right in Python can be one LSB off in hardware, so every output here is compared bit for bit.
+
+## Overview
 
 A small FPGA DSP block in VHDL-2008: a 32-tap FIR decimator with an AXI4-Stream
 data path and an AXI4-Lite register interface, verified bit-exact against a
